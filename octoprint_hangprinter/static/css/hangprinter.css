@@ -1,0 +1,83 @@
+#hangprinter {
+    overflow: hidden
+}
+
+#hangprinter .jog-panel .label{
+    height: 2em;
+    width: 2em;
+    line-height: 2em;
+    text-align: center;
+    float: left;
+    border: 1px solid;
+    margin-right: 10px;
+}
+
+#hangprinter .jog-panel {
+    float: left;
+    margin-right: 19px
+}
+
+#hangprinter h1 {
+    text-align: left
+}
+
+#hangprinter .jog-panel > div {
+    text-align: center
+}
+
+#hangprinter .jog-panel > div.distance {
+    text-align: left
+}
+
+#hangprinter .jog-panel .slider {
+    margin-bottom: 10px
+}
+
+#hangprinter .box {
+    width: 30px;
+    height: 30px;
+    margin-right: 10px;
+    margin-bottom: 10px;
+    padding-left: 8px
+}
+
+#hangprinter .control-box {
+    display: block;
+    height: 30px;
+    margin-bottom: 10px
+}
+
+#hangprinter .btn-group {
+    margin-bottom: 10px
+}
+
+#hangprinter .btn-group.distance > .btn {
+    width: 43px;
+    padding: 3px 0;
+    height: 30px
+}
+
+#hangprinter .slider-handle {
+    width: 14px;
+    height: 14px;
+    margin-left: -7px;
+    margin-top: -3px
+}
+
+#hangprinter .custom_section h1 {
+    cursor: pointer
+}
+
+#hangprinter .custom_section_horizontal > .custom_control {
+    display: inline-block
+}
+
+#hangprinter .custom_section_vertical > .custom_control {
+    display: block
+}
+
+#hangprinter .custom_control .slider {
+    margin-left: 10px;
+    margin-right: 10px;
+    margin-bottom: 2px
+}

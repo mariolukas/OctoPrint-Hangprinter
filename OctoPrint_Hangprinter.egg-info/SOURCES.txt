@@ -1,0 +1,16 @@
+MANIFEST.in
+README.md
+setup.py
+OctoPrint_Hangprinter.egg-info/PKG-INFO
+OctoPrint_Hangprinter.egg-info/SOURCES.txt
+OctoPrint_Hangprinter.egg-info/dependency_links.txt
+OctoPrint_Hangprinter.egg-info/entry_points.txt
+OctoPrint_Hangprinter.egg-info/not-zip-safe
+OctoPrint_Hangprinter.egg-info/requires.txt
+OctoPrint_Hangprinter.egg-info/top_level.txt
+octoprint_hangprinter/__init__.py
+octoprint_hangprinter/static/css/hangprinter.css
+octoprint_hangprinter/static/js/hangprinter.js
+octoprint_hangprinter/static/less/hangprinter.less
+octoprint_hangprinter/templates/README.txt
+octoprint_hangprinter/templates/hangprinter_tab.jinja2

@@ -1,0 +1,4 @@
+include README.md
+recursive-include octoprint_hangprinter/templates *
+recursive-include octoprint_hangprinter/translations *
+recursive-include octoprint_hangprinter/static *
