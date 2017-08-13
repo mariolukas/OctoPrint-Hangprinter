@@ -17,4 +17,4 @@ or manually using this URL:
 The controls can be used to unwind all gears seperatly. The bottom form can be used to enter the 
 measurements for the hangprinter setup. By pressing the "Set Calibration Values" Button, all values
 are calculated and stored in the EEPROM of the printer. Keep in mind that EEPROM option is not 
-activated in the Hangprinter Marlin Firmware. You need to enable this Option.
+activated in the Hangprinter Marlin Firmware by default. You need to enable this Option.
