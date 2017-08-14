@@ -1,6 +1,6 @@
 # OctoPrint-Hangprinter
 
-**TODO:** Describe what your plugin does.
+A simple plugin which will help to setup a Hangprinter. ( http://hangprinter.org )
 
 ## Setup
 
@@ -9,9 +9,12 @@ or manually using this URL:
 
     https://github.com/mariolukas/OctoPrint-Hangprinter/archive/master.zip
 
-**TODO:** Describe how to install your plugin, if more needs to be done than just installing it via pip or through
-the plugin manager.
 
 ## Configuration
 
-**TODO:** Describe your plugin's configuration options (if any).
+![Screenshot of Hangprinter Octoprin Plugin](screenshot.jpg?raw=true "Screenshot of Hangprinter Octoprin Plugin]")
+
+The controls can be used to unwind all gears seperatly. The bottom form can be used to enter the 
+measurements for the hangprinter setup. By pressing the "Set Calibration Values" Button, all values
+are calculated and stored in the EEPROM of the printer. Keep in mind that EEPROM option is not 
+activated in the Hangprinter Marlin Firmware by default. You need to enable this Option.
