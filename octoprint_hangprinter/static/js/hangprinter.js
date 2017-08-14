@@ -46,15 +46,14 @@ $(function() {
         // self.loginStateViewModel = parameters[0];
         // self.settingsViewModel = parameters[1];
 
-        self._processStateData = function (data) {
-            self.isErrorOrClosed(data.flags.closedOrError);
-            self.isOperational(data.flags.operational);
-            self.isPaused(data.flags.paused);
-            self.isPrinting(data.flags.printing);
-            self.isError(data.flags.error);
-            self.isReady(data.flags.ready);
-            self.isLoading(data.flags.loading);
+        self.isCustomEnabled = function (data) {
+            if (data.hasOwnProperty("enabled")) {
+                return data.enabled(data);
+            } else {
+                return self.isOperational() && self.loginState.isUser();
+            }
         };
+
 
         self._createToolEntry = function () {
             return {
@@ -81,7 +80,7 @@ $(function() {
 
         };
 
-        self.calculateCalibration = function () {
+        self.setCalibrationValues = function () {
             self.calculate_values()
             console.log("\nANCHOR_A_Y: "+self.ANCHOR_A_Y+"\nANCHOR_B_X: "+self.ANCHOR_B_X+"\nANCHOR_B_Y: "+self.ANCHOR_B_Y+"\nANCHOR_C_X: "+self.ANCHOR_C_X+"\nANCHOR_C_Y: "+self.ANCHOR_C_Y+"\nANCHOR_D_Z: "+self.ANCHOR_D_Z)
 
@@ -126,6 +125,20 @@ $(function() {
 
         self.stripDistanceDecimal = function(distance) {
             return distance.toString().replace(".", "");
+        };
+        self.fromCurrentData = function(data) {
+            self._processStateData(data.state)
+        }
+
+
+        self._processStateData = function (data) {
+            self.isErrorOrClosed(data.flags.closedOrError);
+            self.isOperational(data.flags.operational);
+            self.isPaused(data.flags.paused);
+            self.isPrinting(data.flags.printing);
+            self.isError(data.flags.error);
+            self.isReady(data.flags.ready);
+            self.isLoading(data.flags.loading);
         };
 
 

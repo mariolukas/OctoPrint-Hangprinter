@@ -1,4 +1,4 @@
-<div id="hangprinter" class="hangprinter">
+<div id="hangprinter" class="hangprinter" style="display: none;" data-bind="visible: loginState.isUser">
     <div id="hangprinter" class="jog-panel">
         <!-- XY jogging hangprinter panel -->
         <div id="hangprinter-jog-xy" class="jog-panel">
@@ -78,7 +78,7 @@
                 <span style="float: left;font-size: 2em; margin-right: 0.2em;">s</span>
                 <input name="textinput" type="text" data-bind="enable: isOperational(), value: $root.s">
             </div>
-            <button style="float: right; margin-right: 2em;" type="button" data-bind="enable: isOperational() && !isPrinting() && loginState.isUser(), click: function() { $root.calculateCalibration() }" class="btn btn-success">Set Calibration Values</button>
+            <button style="float: right; margin-right: 2em;" type="button" data-bind="enable: isOperational() && !isPrinting() && loginState.isUser(), click: function() { $root.setCalibrationValues() }" class="btn btn-success">Set Calibration Values</button>
         </div>
     </div>
 </div>
