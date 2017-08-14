@@ -7,19 +7,19 @@
                 <div> </div>
                 <span id="hangprinter-xinc" style="margin-left: 1.0em;">tighten</span>
             <div style="display: inline-block;">
-                <button id="hangprinter-xdec" class="btn box pull-left" data-bind="enable: !isPrinting() && loginState.isUser(), click: function() { $root.sendJogCommand('A',-1) }"><i class="icon-arrow-left"></i></button>
+                <button id="hangprinter-xdec" class="btn box pull-left" data-bind="enable: isOperational() && !isPrinting() && loginState.isUser(), click: function() { $root.sendJogCommand('A',-1) }"><i class="icon-arrow-left"></i></button>
                 <div class="label"> A </div>
-                <button id="hangprinter-xinc" class="btn box pull-left" data-bind="enable: !isPrinting() && loginState.isUser(), click: function() { $root.sendJogCommand('A',1) }"><i class="icon-arrow-right"></i></button>
+                <button id="hangprinter-xinc" class="btn box pull-left" data-bind="enable: isOperational() && !isPrinting() && loginState.isUser(), click: function() { $root.sendJogCommand('A',1) }"><i class="icon-arrow-right"></i></button>
             </div><br>
             <div style="display: inline-block;">
-                <button id="hangprinter-xdec" class="btn box pull-left" data-bind="enable: !isPrinting() && loginState.isUser(), click: function() { $root.sendJogCommand('B',-1) }"><i class="icon-arrow-left"></i></button>
+                <button id="hangprinter-xdec" class="btn box pull-left" data-bind="enable: isOperational() && !isPrinting() && loginState.isUser(), click: function() { $root.sendJogCommand('B',-1) }"><i class="icon-arrow-left"></i></button>
                 <div class="label"> B </div>
-                <button id="hangprinter-xinc" class="btn box pull-left" data-bind="enable: !isPrinting() && loginState.isUser(), click: function() { $root.sendJogCommand('B',1) }"><i class="icon-arrow-right"></i></button>
+                <button id="hangprinter-xinc" class="btn box pull-left" data-bind="enable: isOperational() && !isPrinting() && loginState.isUser(), click: function() { $root.sendJogCommand('B',1) }"><i class="icon-arrow-right"></i></button>
             </div><br>
             <div style="display: inline-block;">
-                <button id="hangprinter-xdec" class="btn box pull-left" data-bind="enable: !isPrinting() && loginState.isUser(), click: function() { $root.sendJogCommand('C',-1) }"><i class="icon-arrow-left"></i></button>
+                <button id="hangprinter-xdec" class="btn box pull-left" data-bind="enable: isOperational() && !isPrinting() && loginState.isUser(), click: function() { $root.sendJogCommand('C',-1) }"><i class="icon-arrow-left"></i></button>
                 <div class="label"> C </div>
-                <button id="hangprinter-xinc" class="btn box pull-left" data-bind="enable: !isPrinting() && loginState.isUser(), click: function() { $root.sendJogCommand('C',1) }"><i class="icon-arrow-right"></i></button>
+                <button id="hangprinter-xinc" class="btn box pull-left" data-bind="enable: isOperational() && !isPrinting() && loginState.isUser(), click: function() { $root.sendJogCommand('C',1) }"><i class="icon-arrow-right"></i></button>
             </div>
 
         </div>
@@ -28,11 +28,11 @@
         <div id="hangprinter-jog-z" class="jog-panel">
             <h1>&nbsp;</h1>
             <div style="margin-top:2.8em;">
-                <button id="hangprinter-zinc" class="btn box" data-bind="enable: !isPrinting() && loginState.isUser(), click: function() { $root.sendJogCommand('D',1) }"><i class="icon-arrow-up"></i></button>
+                <button id="hangprinter-zinc" class="btn box" data-bind="enable: isOperational() && !isPrinting() && loginState.isUser(), click: function() { $root.sendJogCommand('D',1) }"><i class="icon-arrow-up"></i></button>
             </div>
             <div class="label" style="margin-top: 0.3em; margin-bottom: 1.3em;"> D </div>
             <div>
-                <button id="hangprinter-zdec" class="btn box" data-bind="enable: !isPrinting() && loginState.isUser(), click: function() { $root.sendJogCommand('D',-1) }"><i class="icon-arrow-down"></i></button>
+                <button id="hangprinter-zdec" class="btn box" data-bind="enable: isOperational() && !isPrinting() && loginState.isUser(), click: function() { $root.sendJogCommand('D',-1) }"><i class="icon-arrow-down"></i></button>
             </div>
         </div>
 
@@ -48,7 +48,7 @@
                <!-- Feed rate -->
             <div id="hangprinter-jog-feedrate" class="jog-panel">
                 <input type="number" style="width: 153px" data-bind="slider: {min: 50, max: 150, step: 1, value: feedRate, tooltip: 'hide'}">
-                <button class="btn btn-block" style="width: 169px" data-bind="enable: loginState.isUser(), click: function() { $root.sendFeedRateCommand() }">{{ _('Feed rate:') }}<span data-bind="text: feedRate() + '%'"></span></button>
+                <button class="btn btn-block" style="width: 169px" data-bind="enable: isOperational() && loginState.isUser(), click: function() { $root.sendFeedRateCommand() }">{{ _('Feed rate:') }}<span data-bind="text: feedRate() + '%'"></span></button>
             </div>
        </div>
         <div class="jog-panel">
@@ -56,29 +56,29 @@
             <img src="/plugin/hangprinter/static/img/hangcals.png">
             <div style="margin-top:1em;margin-left: 1.5em; float:left;">
                 <span style="float: left;font-size: 2em; margin-right: 0.2em;">a</span>
-                <input name="textinput" type="text" data-bind="value: $root.a">
+                <input name="textinput" type="text" data-bind="enable: isOperational(), value: $root.a">
             </div>
             <div style="margin-top:1em;margin-left: 1.5em; float:left;">
                 <span style="float: left;font-size: 2em; margin-right: 0.2em;">b</span>
-                <input name="textinput" type="text" data-bind="value: $root.b">
+                <input name="textinput" type="text" data-bind="enable: isOperational(), value: $root.b">
             </div>
             <div style="margin-top:1em;margin-left: 1.5em; float:left;">
                 <span style="float: left;font-size: 2em; margin-right: 0.2em;">c</span>
-                <input name="textinput" type="text" data-bind="value: $root.c">
+                <input name="textinput" type="text" data-bind="enable: isOperational(), value: $root.c">
             </div>
             <div style="margin-top:1em;margin-left: 1.5em; float:left;">
                 <span style="float: left;font-size: 2em; margin-right: 0.2em;">d</span>
-                <input name="textinput" type="text" data-bind="value: $root.d">
+                <input name="textinput" type="text" data-bind="enable: isOperational(), value: $root.d">
             </div>
             <div style="margin-top:1em;margin-left: 1.8em; float:left;">
                 <span style="float: left;font-size: 2em; margin-right: 0.2em;">f</span>
-                <input name="textinput" type="text" data-bind="value: $root.f">
+                <input name="textinput" type="text" data-bind="enable: isOperational(), value: $root.f">
             </div>
             <div style="margin-top:1em;margin-left: 1.8em; float:left;">
                 <span style="float: left;font-size: 2em; margin-right: 0.2em;">s</span>
-                <input name="textinput" type="text" data-bind="value: $root.s">
+                <input name="textinput" type="text" data-bind="enable: isOperational(), value: $root.s">
             </div>
-            <button style="float: right; margin-right: 2em;" type="button" data-bind="click: function() { $root.calculateCalibration() }" class="btn btn-success">Set Calibration Values</button>
+            <button style="float: right; margin-right: 2em;" type="button" data-bind="enable: isOperational() && !isPrinting() && loginState.isUser(), click: function() { $root.calculateCalibration() }" class="btn btn-success">Set Calibration Values</button>
         </div>
     </div>
 </div>
