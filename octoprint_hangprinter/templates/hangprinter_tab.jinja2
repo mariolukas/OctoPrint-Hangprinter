@@ -3,6 +3,9 @@
         <!-- XY jogging hangprinter panel -->
         <div id="hangprinter-jog-xy" class="jog-panel">
             <h1><span class="icon-cog"></span> Move Gears</h1>
+                <span id="hangprinter-xdec" style="float: left; margin-left: 1.6em;">release</span>
+                <div> </div>
+                <span id="hangprinter-xinc" style="margin-left: 1.0em;">tighten</span>
             <div style="display: inline-block;">
                 <button id="hangprinter-xdec" class="btn box pull-left" data-bind="enable: !isPrinting() && loginState.isUser(), click: function() { $root.sendJogCommand('A',-1) }"><i class="icon-arrow-left"></i></button>
                 <div class="label"> A </div>
@@ -24,7 +27,7 @@
         <!-- Z jogging hangprinter panel -->
         <div id="hangprinter-jog-z" class="jog-panel">
             <h1>&nbsp;</h1>
-            <div>
+            <div style="margin-top:2.8em;">
                 <button id="hangprinter-zinc" class="btn box" data-bind="enable: !isPrinting() && loginState.isUser(), click: function() { $root.sendJogCommand('D',1) }"><i class="icon-arrow-up"></i></button>
             </div>
             <div class="label" style="margin-top: 0.3em; margin-bottom: 1.3em;"> D </div>
