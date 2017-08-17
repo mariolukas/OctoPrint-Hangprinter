@@ -118,7 +118,7 @@ $(function() {
             console.log(data)
             code = "G7 ";
             code += Object.keys(data)[0]+data[Object.keys(data)[0]]
-            code += " F4000"
+            code += " F1000"
             OctoPrint.control.sendGcode(code);
             console.log("Jog: Sending command \"" + code +"\"");
         };
