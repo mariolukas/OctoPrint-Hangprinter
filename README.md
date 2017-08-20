@@ -1,6 +1,6 @@
 # OctoPrint-Hangprinter
 
-A simple plugin which will help to setup a Hangprinter. ( http://hangprinter.org )
+A simple plugin which will help to setup and calibrate a Hangprinter. ( http://hangprinter.org )
 
 ## Setup
 
@@ -12,9 +12,18 @@ or manually using this URL:
 
 ## Configuration
 
+Simple:
+
 ![Screenshot of Hangprinter Octoprin Plugin](screenshot.jpg?raw=true "Screenshot of Hangprinter Octoprin Plugin]")
 
-The controls can be used to unwind all gears seperatly. The bottom form can be used to enter the 
+Advanced:
+
+![Screenshot of Hangprinter Octoprin Plugin](screenshot_adv.jpg?raw=true "Screenshot of Hangprinter Octoprin Plugin]")
+
+The controls can be used to unwind all gears seperatly. The bottom form can be used to enter the
 measurements for the hangprinter setup. By pressing the "Set Calibration Values" Button, all values
-are calculated and stored in the EEPROM of the printer. Keep in mind that EEPROM option is not 
+are calculated and stored in the EEPROM of the printer. Keep in mind that EEPROM option is not
 activated in the Hangprinter Marlin Firmware by default. You need to enable this Option.
+
+Advanced Mode can be used to check the calculations and set calculation values manually.
+

@@ -1,7 +1,7 @@
 <div id="hangprinter" class="hangprinter" style="display: none;" data-bind="visible: loginState.isUser">
     <div id="hangprinter" class="jog-panel">
         <!-- XY jogging hangprinter panel -->
-        <div id="hangprinter-jog-xy" class="jog-panel">
+        <div style="margin-right: 0;" id="hangprinter-jog-xy" class="jog-panel">
             <h1><span class="icon-cog"></span> Move Gears</h1>
                 <span id="hangprinter-xdec" style="float: left; margin-left: 1.6em;">release</span>
                 <div> </div>
@@ -25,9 +25,9 @@
         </div>
 
         <!-- Z jogging hangprinter panel -->
-        <div id="hangprinter-jog-z" class="jog-panel">
-            <h1>&nbsp;</h1>
-            <div style="margin-top:2.8em;">
+        <div  style="position: relative; top: -1.1em;" id="hangprinter-jog-z" class="z-jog-panel">
+
+            <div >
                 <button id="hangprinter-zinc" class="btn box" data-bind="enable: isOperational() && !isPrinting() && loginState.isUser(), click: function() { $root.sendJogCommand('D',1) }"><i class="icon-arrow-up"></i></button>
             </div>
             <div class="label" style="margin-top: 0.3em; margin-bottom: 1.3em;"> D </div>
@@ -37,7 +37,7 @@
         </div>
 
        <div id="hangprinter-jog-xy" class="jog-panel">
-           <h1>Distance/ Feedrate</h1><!-- Jog distance -->
+           <h1>Distance</h1><!-- Jog distance -->
             <div style="margin-top: 2.5em;" class="distance">
                 <div class="btn-group" data-toggle="buttons-radio" id="jog_distance">
                     <!-- ko foreach: distances -->
@@ -46,39 +46,109 @@
                 </div>
             </div>
                <!-- Feed rate -->
-            <div id="hangprinter-jog-feedrate" class="jog-panel">
-                <input type="number" style="width: 153px" data-bind="slider: {min: 50, max: 150, step: 1, value: feedRate, tooltip: 'hide'}">
+            <div style="width:100%" id="hangprinter-jog-feedrate" class="jog-panel">
+           <!--     <input type="number" style="width: 153px" data-bind="slider: {min: 50, max: 150, step: 1, value: feedRate, tooltip: 'hide'}">
                 <button class="btn btn-block" style="width: 169px" data-bind="enable: isOperational() && loginState.isUser(), click: function() { $root.sendFeedRateCommand() }">{{ _('Feed rate:') }}<span data-bind="text: feedRate() + '%'"></span></button>
+            --><h1>Feedrate</h1>
+                <input min="0" max="5000" style="width:8em;" name="textinput" type="number" data-bind="enable: isOperational(), value: $root.feedRate">
+
             </div>
+
        </div>
         <div class="jog-panel">
-            <h1><span class="icon-wrench"></span> Hangprinter Calibration</h1>
+            <h1><span class="icon-wrench"></span> Calibration</h1>
             <img src="/plugin/hangprinter/static/img/hangcals.png">
             <div style="margin-top:1em;margin-left: 1.5em; float:left;">
                 <span style="float: left;font-size: 2em; margin-right: 0.2em;">a</span>
-                <input name="textinput" type="text" data-bind="enable: isOperational(), value: $root.a">
+                <input style="width:8em;" name="textinput" type="text" data-bind="enterkey:calculateValues, enable: isOperational(), value: $root.a">
             </div>
             <div style="margin-top:1em;margin-left: 1.5em; float:left;">
                 <span style="float: left;font-size: 2em; margin-right: 0.2em;">b</span>
-                <input name="textinput" type="text" data-bind="enable: isOperational(), value: $root.b">
+                <input style="width:8em;" name="textinput" type="text" data-bind="valueUpdate: 'afterkeyup',enterkey:calculateValues, enable: isOperational(), value: $root.b">
             </div>
             <div style="margin-top:1em;margin-left: 1.5em; float:left;">
                 <span style="float: left;font-size: 2em; margin-right: 0.2em;">c</span>
-                <input name="textinput" type="text" data-bind="enable: isOperational(), value: $root.c">
+                <input style="width:8em;" name="textinput" type="text" data-bind="valueUpdate: 'afterkeyup',enterkey:calculateValues, enable: isOperational(), value: $root.c">
             </div>
             <div style="margin-top:1em;margin-left: 1.5em; float:left;">
                 <span style="float: left;font-size: 2em; margin-right: 0.2em;">d</span>
-                <input name="textinput" type="text" data-bind="enable: isOperational(), value: $root.d">
+                <input style="width:8em;" name="textinput" type="text" data-bind="valueUpdate: 'afterkeyup',enterkey:calculateValues, enable: isOperational(), value: $root.d">
             </div>
             <div style="margin-top:1em;margin-left: 1.8em; float:left;">
                 <span style="float: left;font-size: 2em; margin-right: 0.2em;">f</span>
-                <input name="textinput" type="text" data-bind="enable: isOperational(), value: $root.f">
+                <input style="width:8em;" name="textinput" type="text" data-bind="valueUpdate: 'afterkeyup',enterkey:calculateValues, enable: isOperational(), value: $root.f">
             </div>
             <div style="margin-top:1em;margin-left: 1.8em; float:left;">
                 <span style="float: left;font-size: 2em; margin-right: 0.2em;">s</span>
-                <input name="textinput" type="text" data-bind="enable: isOperational(), value: $root.s">
+                <input style="width:8em;" name="textinput" type="text" data-bind="valueUpdate: 'afterkeyup', enterkey:calculateValues, enable: isOperational(), value: $root.s">
             </div>
-            <button style="float: right; margin-right: 2em;" type="button" data-bind="enable: isOperational() && !isPrinting() && loginState.isUser(), click: function() { $root.setCalibrationValues() }" class="btn btn-success">Set Calibration Values</button>
+            <div class="advanced_options">
+                <a data-bind="click: toggleAdvancedSettings"><span data-bind="visible: advanced_visible()" class="icon-minus"></span> <span data-bind="visible: !advanced_visible()" class="icon-plus"></span> advanced settings</a>
+                <div data-bind="visible: advanced_visible">
+                    <div style="margin-top:1em; padding:1em; background-color: lightgrey; display: inline-block;">
+                        <label style="font-size:1.4em;">Anchor A</label>
+                        <div style="margin-top:1em; float:left;">
+                            <span style="float: left;font-size: 2em; margin-right: 0.2em;">x</span>
+                            <input style="width:8em; background-color: rosybrown;" name="textinput" type="text" data-bind="enable: isOperational(), value: $root.ANCHOR_A_X">
+                        </div>
+                        <div style="margin-top:1em;float:left; margin-left:1.8em;">
+                            <span style="float: left;font-size: 2em; margin-right: 0.2em;">y</span>
+                            <input style="width:8em;" name="textinput" type="text" data-bind="enable: isOperational(), value: $root.ANCHOR_A_Y">
+                        </div>
+                        <div style="margin-top:1em;float:left; margin-left:1.8em;">
+                            <span style="float: left;font-size: 2em; margin-right: 0.2em;">z</span>
+                            <input style="width:8em; background-color: rosybrown;" name="textinput" type="text" data-bind="enable: isOperational(), value: $root.ANCHOR_A_Z">
+                        </div>
+                    </div>
+                    <div style=" margin-top:1em; padding:1em; background-color: lightgrey; display: inline-block;">
+                        <label style="font-size:1.4em;">Anchor B</label>
+                        <div style="margin-top:1em; float:left;">
+                            <span style="float: left;font-size: 2em; margin-right: 0.2em;">x</span>
+                            <input style="width:8em;" name="textinput" type="text" data-bind="enable: isOperational(), value: $root.ANCHOR_B_X">
+                        </div>
+                        <div style="margin-top:1em;float:left; margin-left:1.8em;">
+                            <span style="float: left;font-size: 2em; margin-right: 0.2em;">y</span>
+                            <input style="width:8em;" name="textinput" type="text" data-bind="enable: isOperational(), value: $root.ANCHOR_B_Y">
+                        </div>
+                        <div style="margin-top:1em;float:left; margin-left:1.8em;">
+                            <span style="float: left;font-size: 2em; margin-right: 0.2em;">z</span>
+                            <input style="width:8em; background-color: rosybrown;" name="textinput" type="text" data-bind="enable: isOperational(), value: $root.ANCHOR_B_Z">
+                        </div>
+                    </div>
+                    <div style=" margin-top:1em; padding:1em; background-color: lightgrey; display: inline-block;">
+                        <label style="font-size:1.4em;">Anchor C</label>
+                        <div style="margin-top:1em; float:left;">
+                            <span style="float: left;font-size: 2em; margin-right: 0.2em;">x</span>
+                            <input style="width:8em;" name="textinput" type="text" data-bind="enable: isOperational(), value: $root.ANCHOR_C_X">
+                        </div>
+                        <div style="margin-top:1em;float:left; margin-left:1.8em;">
+                            <span style="float: left;font-size: 2em; margin-right: 0.2em;">y</span>
+                            <input style="width:8em;" name="textinput" type="text" data-bind="enable: isOperational(), value: $root.ANCHOR_C_Y">
+                        </div>
+                        <div style="margin-top:1em;float:left; margin-left:1.8em;">
+                            <span style="float: left;font-size: 2em; margin-right: 0.2em;">z</span>
+                            <input style="width:8em; background-color: rosybrown;" name="textinput" type="text" data-bind="enable: isOperational(), value: $root.ANCHOR_C_Z">
+                        </div>
+
+                    </div>
+
+                    <div style="margin-top:1em; padding:1em; background-color: lightgrey; display: inline-block;">
+                        <label style="font-size:1.4em;">Anchor D</label>
+                        <div style="margin-top:1em;float:left;">
+                            <span style="float: left;font-size: 2em; margin-right: 0.2em;">z</span>
+                            <input style="width:8em;" name="textinput" type="text" data-bind="enable: isOperational(), value: $root.ANCHOR_D_Z">
+                        </div>
+
+                    </div>
+                      <div style="width:1em; height:1em;display: inline-block; background-color:rosybrown; "></div> static values defined by measurements.
+                </div>
+            </div>
+            <div>
+                <button style="float: right; margin-right: 2em;" type="button" data-bind="enable: validValues() && isOperational() && !isPrinting() && loginState.isUser(), click: function() { $root.setValuesToEEPROM() }" class="btn btn-success">set values to EEPROM</button>
+                <button style="float: right; margin-right: 2em;" type="button" data-bind="enable: isOperational() && !isPrinting() && loginState.isUser(), click: function() { $root.calculateValues() }" class="btn btn-success">calculate values</button>
+                <!--<button style="float: right; margin-right: 2em;" type="button" data-bind="enable: isOperational() && !isPrinting() && loginState.isUser(), click: function() { $root.readEEPRomValues() }" class="btn btn-success">read values from EEPROM</button>-->
+
+            </div>
         </div>
     </div>
 </div>

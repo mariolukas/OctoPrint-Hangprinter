@@ -9,8 +9,9 @@ $(function() {
         var self = this;
         self.distances = ko.observableArray([0.1, 1, 10, 100]);
         self.distance = ko.observable(10);
-        self.feedRate = ko.observable(100);
+        self.feedRate = ko.observable(2000);
         self.controls = ko.observableArray([]);
+        self.advanced_visible = ko.observable(false);
 
         self.a = ko.observable(905)
         self.b = ko.observable(970)
@@ -28,9 +29,7 @@ $(function() {
         self.ANCHOR_C_X = ko.observable(undefined)
         self.ANCHOR_C_Y = ko.observable(undefined)
         self.ANCHOR_C_Z = ko.observable(-126.80)
-        self.ANCHOR_A_Y = ko.observable(undefined)
         self.ANCHOR_D_Z = ko.observable(undefined)
-
 
         self.isErrorOrClosed = ko.observable(undefined);
         self.isOperational = ko.observable(undefined);
@@ -39,12 +38,17 @@ $(function() {
         self.isError = ko.observable(undefined);
         self.isReady = ko.observable(undefined);
         self.isLoading = ko.observable(undefined);
+        self.validValues = ko.observable(false);
 
         self.loginState = parameters[0];
         self.settings = parameters[1];
         // assign the injected parameters, e.g.:
         // self.loginStateViewModel = parameters[0];
         // self.settingsViewModel = parameters[1];
+
+        self.toggleAdvancedSettings = function () {
+            self.advanced_visible(!self.advanced_visible())
+        };
 
         self.isCustomEnabled = function (data) {
             if (data.hasOwnProperty("enabled")) {
@@ -54,6 +58,23 @@ $(function() {
             }
         };
 
+        self.checkForValidValues = function(){
+            if( (self.ANCHOR_A_Y()) && (self.ANCHOR_B_X()) &&
+                (self.ANCHOR_B_Y()) && (self.ANCHOR_C_X()) &&
+                (self.ANCHOR_C_Y()) && (self.ANCHOR_D_Z()) &&
+                !isNaN(self.ANCHOR_A_Y()) && !isNaN(self.ANCHOR_B_X()) &&
+                !isNaN(self.ANCHOR_B_Y()) && !isNaN(self.ANCHOR_C_X()) &&
+                !isNaN(self.ANCHOR_C_Y()) && !isNaN(self.ANCHOR_D_Z())
+                ){
+                self.validValues(true);
+            } else {
+                self.validValues(false);
+            }
+        }
+
+        self.valueIsNaN = function (value) {
+            return isNaN(value)
+        }
 
         self._createToolEntry = function () {
             return {
@@ -61,8 +82,21 @@ $(function() {
                 key: ko.observable()
             }
         };
+        ko.bindingHandlers.enterkey = {
+            init: function (element, valueAccessor, allBindings, viewModel) {
+                var callback = valueAccessor();
+                $(element).keypress(function (event) {
+                    var keyCode = (event.which ? event.which : event.keyCode);
+                    if (keyCode === 13) {
+                        callback.call(viewModel);
+                        return false;
+                    }
+                    return true;
+                });
+            }
+        };
 
-        self.calculate_values = function (){
+        self.calculateValues = function (){
 
               var A_y = -self.a();
               var B_y = (self.s() * self.s() - self.b() * self.b() - self.a() * self.a()) / (2 * self.a());
@@ -71,38 +105,49 @@ $(function() {
               var C_x = -Math.sqrt(self.f() * self.f() - Math.pow(self.a() + C_y, 2));
               var D_z = self.d();
 
-              self.ANCHOR_A_Y = parseFloat(-(self.a() - 59.80)).toFixed(2);
-              self.ANCHOR_B_X = parseFloat(B_x - (59.80 * Math.sqrt(3) / 2)).toFixed(2);
-              self.ANCHOR_B_Y = parseFloat(B_y - 59.80 / 2).toFixed(2);
-              self.ANCHOR_C_X = parseFloat(C_x + (59.80 * Math.sqrt(3) / 2)).toFixed(2);
-              self.ANCHOR_C_Y = parseFloat(C_y - 59.80 / 2).toFixed(2);
-              self.ANCHOR_D_Z = parseFloat(self.d() - 117.00).toFixed(2);
+              self.ANCHOR_A_Y(parseFloat(-(self.a() - 59.80)).toFixed(2));
+              self.ANCHOR_B_X(parseFloat(B_x - (59.80 * Math.sqrt(3) / 2)).toFixed(2));
+              self.ANCHOR_B_Y(parseFloat(B_y - 59.80 / 2).toFixed(2));
+              self.ANCHOR_C_X(parseFloat(C_x + (59.80 * Math.sqrt(3) / 2)).toFixed(2));
+              self.ANCHOR_C_Y(parseFloat(C_y - 59.80 / 2).toFixed(2));
+              self.ANCHOR_D_Z(parseFloat(self.d() - 117.00).toFixed(2));
+              self.checkForValidValues()
+              console.log("\nANCHOR_A_Y: "+self.ANCHOR_A_Y()+"\nANCHOR_B_X: "+self.ANCHOR_B_X()+"\nANCHOR_B_Y: "+self.ANCHOR_B_Y()+"\nANCHOR_C_X: "+self.ANCHOR_C_X()+"\nANCHOR_C_Y: "+self.ANCHOR_C_Y()+"\nANCHOR_D_Z: "+self.ANCHOR_D_Z())
 
         };
 
-        self.setCalibrationValues = function () {
-            self.calculate_values()
-            console.log("\nANCHOR_A_Y: "+self.ANCHOR_A_Y+"\nANCHOR_B_X: "+self.ANCHOR_B_X+"\nANCHOR_B_Y: "+self.ANCHOR_B_Y+"\nANCHOR_C_X: "+self.ANCHOR_C_X+"\nANCHOR_C_Y: "+self.ANCHOR_C_Y+"\nANCHOR_D_Z: "+self.ANCHOR_D_Z)
+        self.setValuesToEEPROM = function () {
+            //self.calculateValues();
+
 
             code = "M665";
+
             code += " Q" + self.ANCHOR_A_X();
-            code += " W" + self.ANCHOR_A_Y;
+            code += " W" + self.ANCHOR_A_Y();
             code += " E" + self.ANCHOR_A_Z();
-            code += " R" + self.ANCHOR_B_X;
-            code += " T" + self.ANCHOR_B_Y;
+
+            code += " R" + self.ANCHOR_B_X();
+            code += " T" + self.ANCHOR_B_Y();
             code += " Y" + self.ANCHOR_B_Z();
-            code += " U" + self.ANCHOR_C_X;
-            code += " I" + self.ANCHOR_C_Y;
+
+            code += " U" + self.ANCHOR_C_X();
+            code += " I" + self.ANCHOR_C_Y();
             code += " O" + self.ANCHOR_C_Z();
-            code += " P" + self.ANCHOR_D_Z;
-            code += " P" + self.ANCHOR_D_Z;
+
+            code += " P" + self.ANCHOR_D_Z();
+
             OctoPrint.control.sendGcode(code);
-            // Store Values in EEPROM
+            // save Values in EEPROM
             OctoPrint.control.sendGcode("M500");
             console.log("Calibration: Sending command \"" + code +"\"");
         }
 
+        self.readEEPRomValues = function () {
+                console.log("Read EEPROM Values")
+        }
+
         self.sendFeedRateCommand = function () {
+            console.log(self.feedRate())
             OctoPrint.printer.setFeedrate(self.feedRate());
         };
 
@@ -118,7 +163,7 @@ $(function() {
             console.log(data)
             code = "G7 ";
             code += Object.keys(data)[0]+data[Object.keys(data)[0]]
-            code += " F1000"
+            code += " F"+self.feedRate()
             OctoPrint.control.sendGcode(code);
             console.log("Jog: Sending command \"" + code +"\"");
         };

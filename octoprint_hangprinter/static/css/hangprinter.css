@@ -1,5 +1,34 @@
+.predefined{
+    background-color: rosybrown;
+}
+
+.advanced_options{
+    float: left;
+    display: inline-block;
+    margin-left: 1.6em;
+    width: 100%;
+    text-align: left;
+}
+
+.advanced_options > a {
+    float: left;
+    width: 100%;
+    text-align: left;
+}
+
+.advanced_options > div {
+    text-align: left;
+    width:100%;
+    margin-bottom:1em;
+}
+
 #hangprinter {
-    overflow: hidden
+    overflow: none;
+}
+
+
+.measure_value {
+    witdh: 6em;
 }
 
 #hangprinter .jog-panel .label{
@@ -12,14 +41,37 @@
     margin-right: 10px;
 }
 
+#hangprinter .tab-content{
+        display: inline-block;
+}
+
 #hangprinter .jog-panel {
-    float: left;
+    display: inline-block;
     margin-right: 19px
 }
 
 #hangprinter h1 {
     text-align: left
 }
+
+#hangprinter .z-jog-panel {
+    display: inline-block;
+    margin-right: 19px
+
+}
+
+#hangprinter .z-jog-panel > div {
+    text-align: center
+}
+
+#hangprinter .z-jog-panel > div.distance {
+    text-align: left
+}
+
+#hangprinter .z-jog-panel .slider {
+    margin-bottom: 10px
+}
+
 
 #hangprinter .jog-panel > div {
     text-align: center
