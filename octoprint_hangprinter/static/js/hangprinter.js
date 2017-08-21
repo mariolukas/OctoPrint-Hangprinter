@@ -161,7 +161,7 @@ $(function() {
             var data = {};
             data[axis] = distance * multiplier;
             console.log(data)
-            code = "G7 ";
+            code = "G6 ";
             code += Object.keys(data)[0]+data[Object.keys(data)[0]]
             code += " F"+self.feedRate()
             OctoPrint.control.sendGcode(code);
