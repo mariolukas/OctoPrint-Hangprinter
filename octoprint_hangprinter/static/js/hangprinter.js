@@ -151,6 +151,8 @@ $(function() {
         self.setValuesToEEPROM = function () {
             //self.calculateValues();
 
+            OctoPrint.control.sendGcode("M502");
+            OctoPrint.control.sendGcode("M500");
 
             code = "M665";
 
@@ -171,6 +173,7 @@ $(function() {
             OctoPrint.control.sendGcode(code);
             // save Values in EEPROM
             OctoPrint.control.sendGcode("M500");
+            OctoPrint.control.sendGcode("M503");
             console.log("Calibration: Sending command \"" + code +"\"");
         }
 
