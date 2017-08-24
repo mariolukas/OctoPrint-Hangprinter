@@ -46,6 +46,8 @@ $(function() {
         // self.loginStateViewModel = parameters[0];
         // self.settingsViewModel = parameters[1];
 
+
+
         self.toggleAdvancedSettings = function () {
             self.advanced_visible(!self.advanced_visible())
         };
@@ -82,6 +84,7 @@ $(function() {
                 key: ko.observable()
             }
         };
+
         ko.bindingHandlers.enterkey = {
             init: function (element, valueAccessor, allBindings, viewModel) {
                 var callback = valueAccessor();
@@ -96,21 +99,56 @@ $(function() {
             }
         };
 
+
+
+        self.copyDefinesClipboard = function (){
+              console.log("Copy Values to Clipboard")
+              var defines = "#define ANCHOR_A_X 0.00" +
+                            "#define ANCHOR_A_Y" + self.ANCHOR_A_Y() +
+                            "#define ANCHOR_A_Z -146.40" +
+                            "#define ANCHOR_B_X" + self.ANCHOR_B_X() +
+                            "#define ANCHOR_B_Y" + self.ANCHOR_B_Y() +
+                            "#define ANCHOR_B_Z -136.60" +
+                            "#define ANCHOR_C_X" + self.ANCHOR_C_X() +
+                            "#define ANCHOR_C_Y" + self.ANCHOR_C_Y() +
+                            "#define ANCHOR_C_Z -126.80" +
+                            "#define ANCHOR_D_Z"  +self.ANCHOR_D_Z()
+
+
+              var dummy = document.createElement("input");
+              document.body.appendChild(dummy);
+              $(dummy).css('display','none');
+              dummy.setAttribute("id", "dummy_id");
+              document.getElementById("dummy_id").value=defines;
+              dummy.select();
+              document.execCommand("copy");
+              document.body.removeChild(dummy);
+        }
+
         self.calculateValues = function (){
 
-              var A_y = -self.a();
-              var B_y = (self.s() * self.s() - self.b() * self.b() - self.a() * self.a()) / (2 * self.a());
-              var B_x = Math.sqrt(self.s() * self.s() - (self.a()+B_y)*(self.a()+B_y));
-              var C_y = (self.f() * self.f() - self.c() * self.c() - self.a() * self.a()) / (2 * self.a());
-              var C_x = -Math.sqrt(self.f() * self.f() - Math.pow(self.a() + C_y, 2));
-              var D_z = self.d();
+              var a = parseFloat(self.a());
+              var b = parseFloat(self.b());
+              var c = parseFloat(self.c());
+              var d = parseFloat(self.d());
+              var s = parseFloat(self.s());
+              var f = parseFloat(self.f());
 
-              self.ANCHOR_A_Y(parseFloat(-(self.a() - 59.80)).toFixed(2));
+              var A_y = -a;
+              var B_y = (s * s - b * b - a * a) / (2 * a);
+              var B_x = Math.sqrt(s * s - (a+B_y)*(a+B_y));
+              var C_y = (f * f - c * c - a * a) / (2 * a);
+              var C_x = -Math.sqrt(f * f - Math.pow(a + C_y, 2));
+              var D_z = d;
+
+
+              self.ANCHOR_A_Y(parseFloat(-(a - 59.80)).toFixed(2));
               self.ANCHOR_B_X(parseFloat(B_x - (59.80 * Math.sqrt(3) / 2)).toFixed(2));
               self.ANCHOR_B_Y(parseFloat(B_y - 59.80 / 2).toFixed(2));
               self.ANCHOR_C_X(parseFloat(C_x + (59.80 * Math.sqrt(3) / 2)).toFixed(2));
               self.ANCHOR_C_Y(parseFloat(C_y - 59.80 / 2).toFixed(2));
-              self.ANCHOR_D_Z(parseFloat(self.d() - 117.00).toFixed(2));
+              self.ANCHOR_D_Z(parseFloat(d - 117.00).toFixed(2));
+
               self.checkForValidValues()
               console.log("\nANCHOR_A_Y: "+self.ANCHOR_A_Y()+"\nANCHOR_B_X: "+self.ANCHOR_B_X()+"\nANCHOR_B_Y: "+self.ANCHOR_B_Y()+"\nANCHOR_C_X: "+self.ANCHOR_C_X()+"\nANCHOR_C_Y: "+self.ANCHOR_C_Y()+"\nANCHOR_D_Z: "+self.ANCHOR_D_Z())
 
@@ -165,6 +203,9 @@ $(function() {
             code += Object.keys(data)[0]+data[Object.keys(data)[0]]
             code += " F"+self.feedRate()
             OctoPrint.control.sendGcode(code);
+            // Set the Origo here and get current state to octopi Terminal.
+            OctoPrint.control.sendGcode("G92 X0 Y0 Z0");
+            OctoPrint.control.sendGcode("M114");
             console.log("Jog: Sending command \"" + code +"\"");
         };
 
@@ -185,6 +226,7 @@ $(function() {
             self.isReady(data.flags.ready);
             self.isLoading(data.flags.loading);
         };
+
 
 
     }

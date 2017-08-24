@@ -82,8 +82,10 @@
                 <span style="float: left;font-size: 2em; margin-right: 0.2em;">s</span>
                 <input style="width:8em;" name="textinput" type="text" data-bind="valueUpdate: 'afterkeyup', enterkey:calculateValues, enable: isOperational(), value: $root.s">
             </div>
+
             <div class="advanced_options">
                 <a data-bind="click: toggleAdvancedSettings"><span data-bind="visible: advanced_visible()" class="icon-minus"></span> <span data-bind="visible: !advanced_visible()" class="icon-plus"></span> advanced settings</a>
+
                 <div data-bind="visible: advanced_visible">
                     <div style="margin-top:1em; padding:1em; background-color: lightgrey; display: inline-block;">
                         <label style="font-size:1.4em;">Anchor A</label>
@@ -140,9 +142,13 @@
                         </div>
 
                     </div>
-                      <div style="width:1em; height:1em;display: inline-block; background-color:rosybrown; "></div> static values defined by measurements.
+                      <div style="float: right; margin-right: 3em; margin-top: 2em;"><div style="width:1em; height:1em;display: inline-block; background-color:rosybrown; "></div> static values defined by measurements.</div>
+                     <!-- <div style="float: right; margin-top: 2em;"><a href="#" data-bind="click: function() { $root.copyDefinesClipboard() }"><span class="icon-2x icon-copy"></span></a></div>-->
+
                 </div>
             </div>
+
+
             <div>
                 <button style="float: right; margin-right: 2em;" type="button" data-bind="enable: validValues() && isOperational() && !isPrinting() && loginState.isUser(), click: function() { $root.setValuesToEEPROM() }" class="btn btn-success">set values to EEPROM</button>
                 <button style="float: right; margin-right: 2em;" type="button" data-bind="enable: isOperational() && !isPrinting() && loginState.isUser(), click: function() { $root.calculateValues() }" class="btn btn-success">calculate values</button>
