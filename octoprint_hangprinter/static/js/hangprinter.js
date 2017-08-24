@@ -12,6 +12,7 @@ $(function() {
         self.feedRate = ko.observable(2000);
         self.controls = ko.observableArray([]);
         self.advanced_visible = ko.observable(false);
+        self.defines = ko.observable("");
 
         self.a = ko.observable(905)
         self.b = ko.observable(970)
@@ -101,28 +102,20 @@ $(function() {
 
 
 
-        self.copyDefinesClipboard = function (){
+        self.createDefines = function (){
               console.log("Copy Values to Clipboard")
-              var defines = "#define ANCHOR_A_X 0.00" +
-                            "#define ANCHOR_A_Y" + self.ANCHOR_A_Y() +
-                            "#define ANCHOR_A_Z -146.40" +
-                            "#define ANCHOR_B_X" + self.ANCHOR_B_X() +
-                            "#define ANCHOR_B_Y" + self.ANCHOR_B_Y() +
-                            "#define ANCHOR_B_Z -136.60" +
-                            "#define ANCHOR_C_X" + self.ANCHOR_C_X() +
-                            "#define ANCHOR_C_Y" + self.ANCHOR_C_Y() +
-                            "#define ANCHOR_C_Z -126.80" +
-                            "#define ANCHOR_D_Z"  +self.ANCHOR_D_Z()
+              var values = "#define ANCHOR_A_X 0.00\n" +
+                            "#define ANCHOR_A_Y" + self.ANCHOR_A_Y() +"\n"+
+                            "#define ANCHOR_A_Z -146.40\n" +
+                            "#define ANCHOR_B_X" + self.ANCHOR_B_X() +"\n"+
+                            "#define ANCHOR_B_Y" + self.ANCHOR_B_Y() +"\n"+
+                            "#define ANCHOR_B_Z -136.60\n" +
+                            "#define ANCHOR_C_X" + self.ANCHOR_C_X() +"\n"+
+                            "#define ANCHOR_C_Y" + self.ANCHOR_C_Y() +"\n"+
+                            "#define ANCHOR_C_Z -126.80\n" +
+                            "#define ANCHOR_D_Z"  +self.ANCHOR_D_Z()+"\n"
 
-
-              var dummy = document.createElement("input");
-              document.body.appendChild(dummy);
-              $(dummy).css('display','none');
-              dummy.setAttribute("id", "dummy_id");
-              document.getElementById("dummy_id").value=defines;
-              dummy.select();
-              document.execCommand("copy");
-              document.body.removeChild(dummy);
+              self.defines(values)
         }
 
         self.calculateValues = function (){
@@ -150,6 +143,7 @@ $(function() {
               self.ANCHOR_D_Z(parseFloat(d - 117.00).toFixed(2));
 
               self.checkForValidValues()
+              self.createDefines()
               console.log("\nANCHOR_A_Y: "+self.ANCHOR_A_Y()+"\nANCHOR_B_X: "+self.ANCHOR_B_X()+"\nANCHOR_B_Y: "+self.ANCHOR_B_Y()+"\nANCHOR_C_X: "+self.ANCHOR_C_X()+"\nANCHOR_C_Y: "+self.ANCHOR_C_Y()+"\nANCHOR_D_Z: "+self.ANCHOR_D_Z())
 
         };
